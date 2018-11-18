@@ -7,5 +7,6 @@ target 'Bitcoin Ticker' do
 
   # Pods for Bitcoin Ticker
   pod 'Alamofire'
+  pod 'SwiftyJSON'
 
 end
