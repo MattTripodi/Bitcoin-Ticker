@@ -109,22 +109,24 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func updateBitcoinData(json : JSON) {
         
         if let priceResult = json["averages"]["day"].double {
-            bitcoinPriceLabel.text = "\(currencySelected)\(priceResult)"
+            
+            bitcoinPriceLabel.text = "\(currencySelected)\(formatNumber(originalPrice: priceResult))"
         }
         else {
-            
             bitcoinPriceLabel.text = "Bitcoint Price Unavailable"
         }
         
         if let weekPriceResult = json["averages"]["week"].double {
-            weekBitcoinPriceLabel.text = "\(currencySelected)\(weekPriceResult)"
+            
+            weekBitcoinPriceLabel.text = "\(currencySelected)\(formatNumber(originalPrice: weekPriceResult))"
         }
         else {
             weekBitcoinPriceLabel.text = "Bitcoin Price Unavailable"
         }
         
         if let monthPriceResult = json["averages"]["month"].double {
-            monthBitcoinPriceLabel.text = "\(currencySelected)\(monthPriceResult)"
+            
+            monthBitcoinPriceLabel.text = "\(currencySelected)\(formatNumber(originalPrice: monthPriceResult))"
         }
         else {
             monthBitcoinPriceLabel.text = "Bitcoin Price Unavailable"
@@ -138,12 +140,18 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             
                 dateLabel.text = "\(date)"
             }
-            
-           
         }
         else {
             dateLabel.text = "Date Unavailable"
         }
+    }
+    
+    
+    func formatNumber(originalPrice: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: originalPrice))
+        return formattedNumber!
     }
 
 }
