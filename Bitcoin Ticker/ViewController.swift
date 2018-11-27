@@ -18,8 +18,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     var currencySelected = ""
     var finalURL = ""
     
-    
-    
     @IBOutlet weak var bitcoinPriceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var currencyPicker: UIPickerView!
@@ -36,6 +34,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         currencyPicker.selectRow(19, inComponent: 0, animated: true)
         
         roundedLabelCorners()
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, yyyy"
+        let result = formatter.string(from: date)
+        dateLabel.text = result
     }
     
     // PickerView
@@ -98,6 +102,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
                 else {
                     print("Error: \(String(describing: response.result.error))")
                     self.bitcoinPriceLabel.text = "Connection Issues"
+                    self.weekBitcoinPriceLabel.text = "Connection Issues"
+                    self.monthBitcoinPriceLabel.text = "Connection Issues"
                 }
         }
     }
@@ -132,18 +138,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             monthBitcoinPriceLabel.text = "Bitcoin Price Unavailable"
         }
         
-        if let dateResult = json["display_timestamp"].string {
-            
-            let dateFormatter = DateFormatter()
-            
-            if let date = dateFormatter.date(from: dateResult) {
-            
-                dateLabel.text = "\(date)"
-            }
-        }
-        else {
-            dateLabel.text = "Date Unavailable"
-        }
     }
     
     
@@ -156,10 +150,4 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 
 }
 
-extension DateFormatter {
-    func dateFormat(fromString dateString: String) -> Date? {
-        dateFormat = "EEEE, MMM d, yyyy"
-        return self.date(from: dateString)
-    }
-}
 
